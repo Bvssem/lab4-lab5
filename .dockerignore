@@ -1,0 +1,9 @@
+target/
+.git/
+.env
+*.log
+.idea/
+*.iml
+.vscode/
+compose*.yaml
+compose*.yml
