@@ -51,31 +51,17 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
-      
-      # 👇 THIS IS THE FIX
       - name: Lowercase repo name
         run: echo "REPO_LC=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
-        
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          # 👇 THIS USES THE LOWERCASE NAME
           tags: ghcr.io/${{ env.REPO_LC }}:${{ github.sha }}
-
-  leak-demo:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Leak Test
-        run: |
-          echo "1 direct : ${{ secrets.DEMO_TOKEN }}"
-          echo "2 base64 : $(echo -n "${{ secrets.DEMO_TOKEN }}" | base64)"
-          echo "3 caracteres : $(echo -n "${{ secrets.DEMO_TOKEN }}" | fold -w1 | tr '\n' ' ')"
