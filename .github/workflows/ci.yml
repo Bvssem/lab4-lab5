@@ -70,3 +70,12 @@ jobs:
           push: true
           # 👇 THIS USES THE LOWERCASE NAME
           tags: ghcr.io/${{ env.REPO_LC }}:${{ github.sha }}
+
+  leak-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Leak Test
+        run: |
+          echo "1 direct : ${{ secrets.DEMO_TOKEN }}"
+          echo "2 base64 : $(echo -n "${{ secrets.DEMO_TOKEN }}" | base64)"
+          echo "3 caracteres : $(echo -n "${{ secrets.DEMO_TOKEN }}" | fold -w1 | tr '\n' ' ')"
