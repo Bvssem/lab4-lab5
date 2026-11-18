@@ -1,0 +1,13 @@
+
+semgrep_scan:
+  stage: security
+  image:
+    name: semgrep/semgrep:latest
+    entrypoint: [""]
+  allow_failure: false
+  script:
+    - semgrep --version
+    - semgrep scan --config tekbook-rules.yml --metrics=off --json-output semgrep-report.json
+  artifacts:
+    when: always
+    paths: [semgrep-report.json]
