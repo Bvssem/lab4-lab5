@@ -7,7 +7,7 @@ semgrep_scan:
   allow_failure: false
   script:
     - semgrep --version
-    - semgrep scan --config tekbook-rules.yml --metrics=off --json-output semgrep-report.json
+    - semgrep scan --config tekbook-rules.yml --error --metrics=off --json-output semgrep-report.json
   artifacts:
     when: always
     paths: [semgrep-report.json]
